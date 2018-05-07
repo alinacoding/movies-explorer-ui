@@ -1,20 +1,53 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import SearchField from 'react-search-field';
 import './App.css';
+import MovieList from './components/MovieList/MovieList';
 
 class App extends Component {
+
+  constructor() {
+      super();
+      this.state = {
+          searchText: '',
+          searchResults: []
+      };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.searchText !== prevState.searchText) {
+      const { searchText } = this.state;
+      fetch('http://localhost:8080/movie-search', {
+          method: 'post',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            title: searchText
+          })
+      })
+        .then(response => response.json())
+        .then(searchResult => this.setState({searchResults: searchResult.movies}))
+        .catch(err => console.log(err))
+    }
+
+  }
+
+  onChange = (value, event) => {
+    console.log(value);
+    this.setState({ searchText: value});
+  }
+
   render() {
+
+    const { searchResults } = this.state;
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+        <SearchField 
+          placeholder='Search item'
+          onChange={this.onChange}
+        />
+        <MovieList movies = {searchResults}/>
       </div>
-    );
+    )
   }
 }
 
