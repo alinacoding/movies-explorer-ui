@@ -2,7 +2,9 @@ import React from 'react';
 import Movie from '../Movie/Movie';
 
 const MovieList = ({ movies }) => {
-	console.log("Movies", movies);
+	if (!movies) {
+		return <div></div>
+	}
 	return (
 		<div>
 			{movies.map((movies, i) => {

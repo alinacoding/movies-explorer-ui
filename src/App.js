@@ -1,54 +1,31 @@
 import React, { Component } from 'react';
-import SearchField from 'react-search-field';
+import { connect } from 'react-redux';
+
 import './App.css';
+import TitleSearchField from './containers/TitleSearchField/TitleSearchField';
 import MovieList from './components/MovieList/MovieList';
+
+
+const mapStateToProps = (state) => {
+  return {
+    titleSearchField: state.changeTitleSearchField.titleSearchField,
+    searchResults: state.updateSearchResults.searchResults
+  };
+}
 
 class App extends Component {
 
-  constructor() {
-      super();
-      this.state = {
-          searchText: '',
-          searchResults: []
-      };
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.searchText !== prevState.searchText) {
-      const { searchText } = this.state;
-      fetch('http://localhost:8080/movie-search', {
-          method: 'post',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            title: searchText
-          })
-      })
-        .then(response => response.json())
-        .then(searchResult => this.setState({searchResults: searchResult.movies}))
-        .catch(err => console.log(err))
-    }
-
-  }
-
-  onChange = (value, event) => {
-    console.log(value);
-    this.setState({ searchText: value});
-  }
-
   render() {
 
-    const { searchResults } = this.state;
+  const { searchResults } = this.props;
 
-    return (
-      <div>
-        <SearchField 
-          placeholder='Search item'
-          onChange={this.onChange}
-        />
-        <MovieList movies = {searchResults}/>
-      </div>
+  return ( 
+    <div>
+      <TitleSearchField />
+      <MovieList movies = {searchResults}/>
+    </div>
     )
   }
 }
 
-export default App;
+export default connect(mapStateToProps)(App);
