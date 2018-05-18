@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import './App.css';
-import TitleSearchField from './containers/TitleSearchField/TitleSearchField';
+import TitleSearchField from './components/TitleSearchField/TitleSearchField';
+import ActorSearchField from './components/ActorSearchField/ActorSearchField';
 import MovieList from './components/MovieList/MovieList';
 
 
@@ -22,6 +23,7 @@ class App extends Component {
   return ( 
     <div>
       <TitleSearchField />
+      <ActorSearchField />
       <MovieList movies = {searchResults}/>
     </div>
     )

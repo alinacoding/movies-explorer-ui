@@ -1,4 +1,6 @@
 export const initialState = {
 	searchResults: [],
-	titleSearchField: ''
+	titleSearchField: '', 
+	actorSearchField: '',
+	actorSuggestions: []
 }

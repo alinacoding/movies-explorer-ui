@@ -3,10 +3,10 @@ import SearchField from 'react-search-field';
 import { connect } from 'react-redux';
 import { updateSearchResults, changeTitleSearchField } from '../../actions'
 
-
 const mapStateToProps = (state) => {
   return {
     titleSearchField: state.changeTitleSearchField.titleSearchField,
+    actorSearchField: state.changeTitleSearchField.actorSearchField,
     searchResults: state.updateSearchResults.searchResults
   }
 }
@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch) => {
 class TitleSearchField extends Component {
 
 	componentWillReceiveProps(nextProps) {
-		const { titleSearchField,  onSearchResultsChange} = this.props;
+		const { titleSearchField, onSearchResultsChange} = this.props;
 		if (titleSearchField !== nextProps.titleSearchField) {
 			fetch('http://localhost:8080/movie-search', {
 					method: 'post',
@@ -37,6 +37,7 @@ class TitleSearchField extends Component {
 	}
 
 	render() {
+		console.log("Rendering TitleSearchField", this.props);
 		const { titleSearchField, searchResults, onTitleChange } = this.props;
 		console.log("TitleSearchField", titleSearchField);
 		console.log("SearchResults", searchResults);

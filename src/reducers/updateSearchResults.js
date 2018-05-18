@@ -1,4 +1,4 @@
-import {UPDATE_SEARCH_RESULTS} from '../constants.js';
+import { UPDATE_SEARCH_RESULTS } from '../constants.js';
 import { initialState } from '../initialState.js';
 
 export const updateSearchResults = (state = initialState, action = {}) => {
