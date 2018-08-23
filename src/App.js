@@ -12,12 +12,11 @@ import { updateSearchResults, updateMovieData } from './actions'
 const mapStateToProps = (state) => {
   return {
     allMovieData: state.updateMovieData.allMovieData,
-    titleSearchField: state.titleSearchField,
-    actorSearchField: state.actorSearchField,
+    titleSearchField: state.changeTitleSearchField.titleSearchField,
+    actorSearchField: state.changeActorSearchField.actorSearchField,
     searchResults: state.updateSearchResults.searchResults
   };
 }
-
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -29,26 +28,26 @@ const mapDispatchToProps = (dispatch) => {
 class App extends Component {
 
   componentDidMount() {
-		const { titleSearchField, onSearchResultsChange, onMovieDataChange} = this.props;
-			fetch('http://localhost:8080/movie-search', {
-					method: 'post',
-					headers: {'Content-Type': 'application/json'},
-					body: JSON.stringify({
-					title: this.props.titleSearchField,
-				})
-			})
-				.then(response => response.json())
-				.then(searchResult => {
-          onSearchResultsChange(searchResult.movies);
-          onMovieDataChange(searchResult.movies);
-        })
-				.catch(err => console.log(err))
-
-	}
+    const { titleSearchField, onSearchResultsChange, onMovieDataChange} = this.props;
+    fetch('http://localhost:8080/movie-search', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+      title: titleSearchField
+      })
+    })
+    .then(response => response.json())
+    .then(searchResult => {
+      onSearchResultsChange(searchResult.movies);
+      onMovieDataChange(searchResult.movies);
+    })
+    .catch(err => console.log(err))
+  }
 
   render() {
     return (
       <div>
+        <TitleSearchField />
         <ActorSearchField />
         <MovieList movies = {this.props.searchResults}/>
       </div>

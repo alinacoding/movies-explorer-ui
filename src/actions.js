@@ -1,6 +1,6 @@
-import { UPDATE_SEARCH_RESULTS, CHANGE_SEARCH_FIELD,
-	UPDATE_ACTOR_SUGGESTIONS, CLEAR_ACTOR_SUGGESTIONS,
-	UPDATE_MOVIE_DATA } from './constants.js';
+import { UPDATE_SEARCH_RESULTS, CHANGE_TITLE_SEARCH_FIELD,
+	CHANGE_ACTOR_SEARCH_FIELD, UPDATE_ACTOR_SUGGESTIONS,
+	CLEAR_ACTOR_SUGGESTIONS, UPDATE_MOVIE_DATA } from './constants.js';
 
 export const updateSearchResults = (searchResults) => ({
 	type: UPDATE_SEARCH_RESULTS,
@@ -8,23 +8,20 @@ export const updateSearchResults = (searchResults) => ({
 })
 
 export const changeTitleSearchField = (titleSearchField) => {
-	console.log("ActionT", titleSearchField);
 	return ({
-		type: CHANGE_SEARCH_FIELD,
+		type: CHANGE_TITLE_SEARCH_FIELD,
 		titleSearchField: titleSearchField
 	})
 }
 
 export const changeActorSearchField = (actorSearchField) => {
-	console.log("ActionA", actorSearchField);
 	return ({
-		type: CHANGE_SEARCH_FIELD,
+		type: CHANGE_ACTOR_SEARCH_FIELD,
 		actorSearchField: actorSearchField
 	})
 }
 
 export const updateActorSuggestions = (actorSuggestions) => {
-	console.log(actorSuggestions);
 	return ({
 		type: UPDATE_ACTOR_SUGGESTIONS,
 		actorSuggestions: actorSuggestions

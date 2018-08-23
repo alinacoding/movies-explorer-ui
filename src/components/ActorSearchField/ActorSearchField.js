@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { updateSearchResults, changeActorSearchField,
 	updateActorSuggestions, clearActorSuggestions} from '../../actions.js';
 
-
 const mapStateToProps = (state) => {
     return {
 	    actorSearchField: state.changeActorSearchField.actorSearchField,
@@ -18,7 +17,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onSearchResultsChange: (searchResults) => dispatch(updateSearchResults(searchResults)),
-    onActorChange: (event, { newValue }) => dispatch(changeActorSearchField(newValue)),
+    onActorChange: (event, { newValue }) => {
+				dispatch(changeActorSearchField(newValue))
+			},
     onSuggestionsClearRequested: () => dispatch(clearActorSuggestions()),
     dispatch
   }
@@ -35,7 +36,6 @@ const mergeProps = (stateProps, dispatchProps, { value }) => {
 }
 
 const getSuggestions = ({ value }, allMovieData) => {
-	console.log("Inside getSuggestions ", value);
 	const inputValue = value.trim().toLowerCase();
 	const inputLength = inputValue.length;
 
@@ -64,12 +64,13 @@ const renderSuggestion = (suggestion) => {
 class ActorSearchField extends Component {
 
 	componentWillReceiveProps(nextProps) {
-		const { actorSearchField,  onSearchResultsChange, onActorChange} = this.props;
+		const { titleSearchField, actorSearchField,  onSearchResultsChange} = this.props;
 		if (actorSearchField !== nextProps.actorSearchField) {
 			fetch('http://localhost:8080/movie-search', {
 					method: 'post',
 					headers: {'Content-Type': 'application/json'},
 					body: JSON.stringify({
+					title: titleSearchField,
 					actor: nextProps.actorSearchField
 				})
 			})
@@ -80,12 +81,9 @@ class ActorSearchField extends Component {
 	}
 
 	render() {
-		console.log(this.props);
 		const { actorSearchField, actorSuggestions,
 			onActorChange, onSuggestionsFetchRequested,
 			onSuggestionsClearRequested } = this.props;
-		console.log("ActorSearchField", actorSearchField);
-		console.log(actorSuggestions);
 		const inputProps = {
 			placeholder: 'actors',
 			value: actorSearchField,
