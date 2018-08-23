@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import FlexView from 'react-flexview';
 
 import './App.css';
 import TitleSearchField from './components/TitleSearchField/TitleSearchField';
@@ -55,9 +56,18 @@ class App extends Component {
     console.log(this.props);
     return (
       <div>
-        <TitleSearchField />
-        <ActorSearchField />
-        <GenreSearchField />
+        <FlexView vAlignContent='top'>
+        <FlexView hAlignContent='left'>
+          <TitleSearchField />
+        </FlexView>
+        <FlexView hAlignContent='center'>
+          <ActorSearchField />
+        </FlexView>
+        <FlexView hAlignContent='right'>
+          <GenreSearchField />
+        </FlexView>
+        </FlexView>
+
         <MovieList movies = {this.props.searchResults}/>
       </div>
       )

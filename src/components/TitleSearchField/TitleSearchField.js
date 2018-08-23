@@ -45,7 +45,7 @@ class TitleSearchField extends Component {
 		return (
 		  <div>
 		    <SearchField
-		      placeholder='Search title'
+		      placeholder='Title'
 		      onChange={onTitleChange}
 		    />
 		  </div>

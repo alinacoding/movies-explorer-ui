@@ -7,6 +7,8 @@ import { updateSearchResults, changeGenreSearchField,
 
 const mapStateToProps = (state) => {
     return {
+      titleSearchField: state.changeTitleSearchField.titleSearchField,
+      actorSearchField: state.changeActorSearchField.actorSearchField,
       genreSearchField: state.changeGenreSearchField.genreSearchField,
       genreSuggestions: state.handleGenreSuggestions.genreSuggestions,
 	    searchResults: state.updateSearchResults.searchResults,
@@ -82,12 +84,9 @@ class GenreSearchField extends Component {
 	}
 
 	render() {
-    console.log(this.props);
 		const { genreSearchField, genreSuggestions,
 			onGenreChange, onGenreSuggestionsFetchRequested,
-			onGenreSuggestionsClearRequested, allMovieData } = this.props;
-
-      console.log("GENRE SUGGESTIONS", genreSuggestions);
+			onGenreSuggestionsClearRequested } = this.props;
 
 		const inputProps = {
 			placeholder: 'Genres',
