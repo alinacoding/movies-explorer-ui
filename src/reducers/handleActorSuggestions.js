@@ -10,5 +10,4 @@ export const handleActorSuggestions = (state = initialState, action = {}) => {
 		default:
 			return state;
 	}
-} 
-
+}

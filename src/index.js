@@ -19,12 +19,11 @@ const thunkMiddleware = (_ref) => {
   };
 }
 
-
 const store = applyMiddleware(thunkMiddleware)(createStore)(reducer);
 
 ReactDOM.render(
 	<Provider store={store}>
 		<App />
-	</Provider>, 
+	</Provider>,
 	document.getElementById('root'));
 registerServiceWorker();

@@ -6,8 +6,8 @@ import { updateSearchResults, changeTitleSearchField } from '../../actions'
 const mapStateToProps = (state) => {
   return {
     titleSearchField: state.changeTitleSearchField.titleSearchField,
-    actorSearchField: state.changeTitleSearchField.actorSearchField,
-    searchResults: state.updateSearchResults.searchResults
+    actorSearchField: state.changeActorSearchField.actorSearchField,
+    searchResults: state.searchResults//state.updateSearchResults.searchResults
   }
 }
 
@@ -21,13 +21,14 @@ const mapDispatchToProps = (dispatch) => {
 class TitleSearchField extends Component {
 
 	componentWillReceiveProps(nextProps) {
-		const { titleSearchField, onSearchResultsChange} = this.props;
+		const { titleSearchField, onSearchResultsChange, onTitleChange} = this.props;
 		if (titleSearchField !== nextProps.titleSearchField) {
+      onTitleChange(nextProps.titleSearchField);
 			fetch('http://localhost:8080/movie-search', {
 					method: 'post',
 					headers: {'Content-Type': 'application/json'},
 					body: JSON.stringify({
-					title: titleSearchField
+					title: nextProps.titleSearchField
 				})
 			})
 				.then(response => response.json())
@@ -43,7 +44,7 @@ class TitleSearchField extends Component {
 		console.log("SearchResults", searchResults);
 		return (
 		  <div>
-		    <SearchField 
+		    <SearchField
 		      placeholder='Search title'
 		      onChange={onTitleChange}
 		    />

@@ -1,6 +1,7 @@
 export const initialState = {
+	allMovieData: [],
 	searchResults: [],
-	titleSearchField: '', 
+	titleSearchField: '',
 	actorSearchField: '',
 	actorSuggestions: []
 }
