@@ -17,9 +17,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onSearchResultsChange: (searchResults) => dispatch(updateSearchResults(searchResults)),
-    onActorChange: (event, { newValue }) => {
-				dispatch(changeActorSearchField(newValue))
-			},
+    onActorChange: (event, { newValue }) => dispatch(changeActorSearchField(newValue)),
     onSuggestionsClearRequested: () => dispatch(clearActorSuggestions()),
     dispatch
   }
@@ -64,14 +62,15 @@ const renderSuggestion = (suggestion) => {
 class ActorSearchField extends Component {
 
 	componentWillReceiveProps(nextProps) {
-		const { titleSearchField, actorSearchField,  onSearchResultsChange} = this.props;
+		const { titleSearchField, actorSearchField, genreSearchField, onSearchResultsChange} = this.props;
 		if (actorSearchField !== nextProps.actorSearchField) {
 			fetch('http://localhost:8080/movie-search', {
 					method: 'post',
 					headers: {'Content-Type': 'application/json'},
 					body: JSON.stringify({
 					title: titleSearchField,
-					actor: nextProps.actorSearchField
+					actor: nextProps.actorSearchField,
+					genre: genreSearchField
 				})
 			})
 				.then(response => response.json())
@@ -85,7 +84,7 @@ class ActorSearchField extends Component {
 			onActorChange, onSuggestionsFetchRequested,
 			onSuggestionsClearRequested } = this.props;
 		const inputProps = {
-			placeholder: 'actors',
+			placeholder: 'Actors',
 			value: actorSearchField,
 			onChange: onActorChange
 		};

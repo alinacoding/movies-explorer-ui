@@ -4,51 +4,60 @@ import { connect } from 'react-redux';
 import './App.css';
 import TitleSearchField from './components/TitleSearchField/TitleSearchField';
 import ActorSearchField from './components/ActorSearchField/ActorSearchField';
+import GenreSearchField from './components/GenreSearchField/GenreSearchField';
 import MovieList from './components/MovieList/MovieList';
 
-import { updateSearchResults, updateMovieData } from './actions'
-
+import { updateSearchResults, updateMovieData, updateAllGenres } from './actions'
 
 const mapStateToProps = (state) => {
   return {
     allMovieData: state.updateMovieData.allMovieData,
+    allGenres: state.updateAllGenres.allGenres,
     titleSearchField: state.changeTitleSearchField.titleSearchField,
     actorSearchField: state.changeActorSearchField.actorSearchField,
+    genreSearchField: state.changeGenreSearchField.genreSearchField,
     searchResults: state.updateSearchResults.searchResults
   };
+}
+
+const getAllGenres = (allMovieData) => {
+  return [...new Set([].concat.apply([], allMovieData.map(movie =>
+  			movie.genres)))];
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onSearchResultsChange: (searchResults) => dispatch(updateSearchResults(searchResults)),
-    onMovieDataChange: (movieData) => dispatch(updateMovieData(movieData))
+    onMovieDataChange: (movieData) => dispatch(updateMovieData(movieData)),
+    onAllGenresChange: (allGenres) => dispatch(updateAllGenres(allGenres))
   }
 }
 
 class App extends Component {
 
-  componentDidMount() {
-    const { titleSearchField, onSearchResultsChange, onMovieDataChange} = this.props;
-    fetch('http://localhost:8080/movie-search', {
+  async componentDidMount() {
+    const { titleSearchField, onSearchResultsChange, onMovieDataChange, onAllGenresChange } = this.props;
+    const response = await fetch('http://localhost:8080/movie-search', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
       title: titleSearchField
       })
     })
-    .then(response => response.json())
-    .then(searchResult => {
-      onSearchResultsChange(searchResult.movies);
-      onMovieDataChange(searchResult.movies);
-    })
-    .catch(err => console.log(err))
+    const searchResult = await response.json();
+
+    onSearchResultsChange(searchResult.movies);
+    onMovieDataChange(searchResult.movies);
+    onAllGenresChange(getAllGenres(searchResult.movies));
   }
 
   render() {
+    console.log(this.props);
     return (
       <div>
         <TitleSearchField />
         <ActorSearchField />
+        <GenreSearchField />
         <MovieList movies = {this.props.searchResults}/>
       </div>
       )

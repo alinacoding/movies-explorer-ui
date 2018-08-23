@@ -21,7 +21,8 @@ const mapDispatchToProps = (dispatch) => {
 class TitleSearchField extends Component {
 
 	componentWillReceiveProps(nextProps) {
-		const { actorSearchField, titleSearchField, onSearchResultsChange, onTitleChange} = this.props;
+		const { actorSearchField, titleSearchField, genreSearchField,
+      onSearchResultsChange, onTitleChange} = this.props;
 		if (titleSearchField !== nextProps.titleSearchField) {
       onTitleChange(nextProps.titleSearchField);
 			fetch('http://localhost:8080/movie-search', {
@@ -29,7 +30,8 @@ class TitleSearchField extends Component {
 					headers: {'Content-Type': 'application/json'},
 					body: JSON.stringify({
 					title: nextProps.titleSearchField,
-          actor:  actorSearchField
+          actor:  actorSearchField,
+          genre: genreSearchField
 				})
 			})
 				.then(response => response.json())
